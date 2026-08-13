@@ -16,65 +16,72 @@ export default function TransactionList({
   onDelete,
 }: TransactionListProps) {
   return (
-    <div>
-      {/* Desktop Table View */}
-      <div className="hidden overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xs dark:border-gray-800 dark:bg-gray-900 md:block">
-        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-          <thead className="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-700 dark:bg-gray-800/50 dark:text-gray-300">
+    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs">
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-xs text-slate-600">
+          <thead className="border-b border-slate-100 bg-slate-50/50 text-[11px] font-bold uppercase tracking-wider text-slate-400">
             <tr>
-              <th scope="col" className="px-6 py-3.5">
-                Date
-              </th>
-              <th scope="col" className="px-6 py-3.5">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3.5">
-                Category
-              </th>
-              <th scope="col" className="px-6 py-3.5 text-right">
-                Amount
-              </th>
-              <th scope="col" className="px-6 py-3.5 text-right">
-                Actions
-              </th>
+              <th scope="col" className="px-5 py-3.5">DATE</th>
+              <th scope="col" className="px-5 py-3.5">DESCRIPTION</th>
+              <th scope="col" className="px-5 py-3.5">CATEGORY</th>
+              <th scope="col" className="px-5 py-3.5">TYPE</th>
+              <th scope="col" className="px-5 py-3.5 text-right">AMOUNT</th>
+              <th scope="col" className="px-5 py-3.5 text-right">ACTIONS</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-            {transactions.map((t) => (
+          <tbody className="divide-y divide-slate-100">
+            {transactions.map((transaction) => (
               <tr
-                key={t.id}
-                className="hover:bg-gray-50/80 transition-colors dark:hover:bg-gray-800/50"
+                key={transaction.id}
+                className="transition-colors hover:bg-slate-50/60"
               >
-                <td className="whitespace-nowrap px-6 py-4 text-gray-900 dark:text-gray-200 font-medium">
-                  {formatTransactionDate(t.transactionDate)}
+                {/* DATE */}
+                <td className="whitespace-nowrap px-5 py-4 font-medium text-slate-500">
+                  {formatTransactionDate(transaction.transactionDate)}
                 </td>
-                <td className="px-6 py-4 text-gray-900 dark:text-white font-medium">
-                  {t.description || <span className="text-gray-400 font-normal">{t.category}</span>}
+
+                {/* DESCRIPTION */}
+                <td className="px-5 py-4 font-bold text-slate-900">
+                  {transaction.description || transaction.category}
                 </td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                    {t.category}
+
+                {/* CATEGORY */}
+                <td className="whitespace-nowrap px-5 py-4 text-slate-500">
+                  {transaction.category}
+                </td>
+
+                {/* TYPE */}
+                <td className="whitespace-nowrap px-5 py-4">
+                  <span className="inline-flex items-center space-x-1.5 rounded-full bg-slate-100/80 px-2.5 py-1 text-[11px] font-medium text-slate-700">
+                    <span className="text-slate-500">
+                      {transaction.type === "INCOME" ? "↖" : "↙"}
+                    </span>
+                    <span>{transaction.type === "INCOME" ? "Income" : "Expense"}</span>
                   </span>
                 </td>
+
+                {/* AMOUNT */}
                 <td
-                  className={`whitespace-nowrap px-6 py-4 text-right font-semibold ${
-                    t.type === "INCOME"
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
+                  className={`whitespace-nowrap px-5 py-4 text-right font-bold ${
+                    transaction.type === "INCOME"
+                      ? "text-emerald-600"
+                      : "text-slate-900"
                   }`}
                 >
-                  {formatCurrency(t.amount, t.type)}
+                  {formatCurrency(transaction.amount, transaction.type)}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 text-right space-x-2">
+
+                {/* ACTIONS */}
+                <td className="whitespace-nowrap px-5 py-4 text-right space-x-3">
                   <button
-                    onClick={() => onEdit(t)}
-                    className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                    onClick={() => onEdit(transaction)}
+                    className="font-semibold text-slate-500 hover:text-slate-900 transition-colors"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => onDelete(t)}
-                    className="font-medium text-red-600 hover:text-red-500 dark:text-red-400"
+                    onClick={() => onDelete(transaction)}
+                    className="font-semibold text-rose-700 hover:text-rose-900 transition-colors"
                   >
                     Delete
                   </button>
@@ -83,56 +90,6 @@ export default function TransactionList({
             ))}
           </tbody>
         </table>
-      </div>
-
-      {/* Mobile Card List View */}
-      <div className="space-y-3 md:hidden">
-        {transactions.map((t) => (
-          <div
-            key={t.id}
-            className="rounded-xl border border-gray-200 bg-white p-4 shadow-xs dark:border-gray-800 dark:bg-gray-900"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {formatTransactionDate(t.transactionDate)}
-                </span>
-                <h4 className="font-semibold text-gray-900 dark:text-white mt-0.5">
-                  {t.description || t.category}
-                </h4>
-              </div>
-              <span
-                className={`text-base font-bold ${
-                  t.type === "INCOME"
-                    ? "text-green-600 dark:text-green-400"
-                    : "text-red-600 dark:text-red-400"
-                }`}
-              >
-                {formatCurrency(t.amount, t.type)}
-              </span>
-            </div>
-
-            <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-800">
-              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300">
-                {t.category}
-              </span>
-              <div className="space-x-3 text-sm">
-                <button
-                  onClick={() => onEdit(t)}
-                  className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => onDelete(t)}
-                  className="font-medium text-red-600 hover:text-red-500 dark:text-red-400"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

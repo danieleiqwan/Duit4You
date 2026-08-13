@@ -1,74 +1,49 @@
 "use client";
 
 import { formatCurrency } from "@/lib/currency";
-import { PERIOD_LABELS, PeriodOption } from "./PeriodSelector";
 
 interface SummaryCardsProps {
   income: number;
   expenses: number;
   balance: number;
-  period: PeriodOption;
 }
 
 export default function SummaryCards({
   income,
   expenses,
   balance,
-  period,
 }: SummaryCardsProps) {
-  const periodLabel = PERIOD_LABELS[period] || "Selected Period";
-
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {/* Income Card */}
-      <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-            Total Income
-          </span>
-          <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-950/60 dark:text-green-400">
-            {periodLabel}
-          </span>
-        </div>
-        <p className="mt-3 text-2xl font-bold tracking-tight text-green-600 dark:text-green-400">
-          {formatCurrency(income, "INCOME")}
-        </p>
-      </div>
-
-      {/* Expenses Card */}
-      <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-            Total Expenses
-          </span>
-          <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 dark:bg-red-950/60 dark:text-red-400">
-            {periodLabel}
-          </span>
-        </div>
-        <p className="mt-3 text-2xl font-bold tracking-tight text-red-600 dark:text-red-400">
-          {formatCurrency(expenses, "EXPENSE")}
-        </p>
-      </div>
-
-      {/* Net Balance Card */}
-      <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-            Period Balance
-          </span>
-          <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-950/60 dark:text-blue-400">
-            {periodLabel}
-          </span>
-        </div>
-        <p
-          className={`mt-3 text-2xl font-bold tracking-tight ${
-            balance >= 0
-              ? "text-gray-900 dark:text-white"
-              : "text-red-600 dark:text-red-400"
-          }`}
-        >
+    <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs">
+      {/* Top Hero Balance */}
+      <div>
+        <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+          BALANCE
+        </span>
+        <p className="text-3xl font-extrabold tracking-tight text-slate-900">
           {formatCurrency(balance)}
         </p>
+      </div>
+
+      {/* Subtle Separator & Sub-metrics */}
+      <div className="mt-6 border-t border-slate-100 pt-5 grid grid-cols-2 gap-6 sm:grid-cols-4">
+        <div>
+          <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+            INCOME
+          </span>
+          <p className="text-base font-bold text-emerald-600">
+            {formatCurrency(income, "INCOME")}
+          </p>
+        </div>
+
+        <div>
+          <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+            EXPENSES
+          </span>
+          <p className="text-base font-bold text-rose-600">
+            {formatCurrency(expenses, "EXPENSE")}
+          </p>
+        </div>
       </div>
     </div>
   );

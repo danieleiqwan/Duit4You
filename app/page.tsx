@@ -10,26 +10,36 @@ export default async function Home() {
   }
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center bg-gray-50 px-4 dark:bg-gray-950">
-      <div className="w-full max-w-md space-y-6 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-          Finance Assistant
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          Personal finance management with AI-powered insights
-        </p>
-        <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 sm:justify-center pt-4">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 py-12">
+      <div className="w-full max-w-sm space-y-6 text-center">
+        {/* Brand Badge */}
+        <div className="flex justify-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-base font-black text-white shadow-xs">
+            F
+          </div>
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            Finance Assistant
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Personal finance management & analytics
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs space-y-3">
           <Link
             href="/login"
-            className="rounded-md bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex w-full justify-center rounded-lg bg-[#181E29] px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-slate-800"
           >
-            Sign In
+            Sign in
           </Link>
           <Link
             href="/register"
-            className="rounded-md border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+            className="flex w-full justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs hover:bg-slate-50"
           >
-            Create Account
+            Create account
           </Link>
         </div>
       </div>

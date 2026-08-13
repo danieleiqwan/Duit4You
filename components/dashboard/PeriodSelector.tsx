@@ -8,31 +8,27 @@ interface PeriodSelectorProps {
 }
 
 export const PERIOD_LABELS: Record<PeriodOption, string> = {
-  THIS_MONTH: "This Month",
-  LAST_MONTH: "Last Month",
-  LAST_3_MONTHS: "Last 3 Months",
-  THIS_YEAR: "This Year",
-  ALL_TIME: "All Time",
+  THIS_MONTH: "This month",
+  LAST_MONTH: "Last month",
+  LAST_3_MONTHS: "Last 3 months",
+  THIS_YEAR: "This year",
+  ALL_TIME: "All time",
 };
 
 export default function PeriodSelector({ selectedPeriod, onChange }: PeriodSelectorProps) {
   return (
-    <div className="flex items-center space-x-2">
-      <label htmlFor="dashboardPeriod" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-        Period:
-      </label>
-      <select
-        id="dashboardPeriod"
-        value={selectedPeriod}
-        onChange={(e) => onChange(e.target.value as PeriodOption)}
-        className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-900 shadow-xs focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-      >
-        <option value="THIS_MONTH">This Month</option>
-        <option value="LAST_MONTH">Last Month</option>
-        <option value="LAST_3_MONTHS">Last 3 Months</option>
-        <option value="THIS_YEAR">This Year</option>
-        <option value="ALL_TIME">All Time</option>
-      </select>
-    </div>
+    <select
+      id="dashboardPeriod"
+      aria-label="Select period"
+      value={selectedPeriod}
+      onChange={(e) => onChange(e.target.value as PeriodOption)}
+      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-900 shadow-2xs focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900"
+    >
+      <option value="THIS_MONTH">This month</option>
+      <option value="LAST_MONTH">Last month</option>
+      <option value="LAST_3_MONTHS">Last 3 months</option>
+      <option value="THIS_YEAR">This year</option>
+      <option value="ALL_TIME">All time</option>
+    </select>
   );
 }

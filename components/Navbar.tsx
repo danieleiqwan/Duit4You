@@ -15,32 +15,35 @@ export default function Navbar({ userName }: NavbarProps) {
   const isTransactionsActive = pathname.startsWith("/transactions");
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/95">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-xs">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <div className="flex items-center space-x-8">
-          <Link href="/dashboard" className="flex items-center space-x-2">
-            <span className="text-xl font-bold tracking-tight text-blue-600 dark:text-blue-400">
+        <div className="flex items-center space-x-6">
+          <Link href="/dashboard" className="flex items-center space-x-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-xs font-black text-white shadow-xs">
+              F
+            </div>
+            <span className="text-sm font-bold tracking-tight text-slate-900">
               Finance Assistant
             </span>
           </Link>
 
-          <nav className="hidden space-x-4 sm:flex">
+          <nav className="hidden space-x-2 sm:flex">
             <Link
               href="/dashboard"
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 isDashboardActive
-                  ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}
             >
               Dashboard
             </Link>
             <Link
               href="/transactions"
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 isTransactionsActive
-                  ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}
             >
               Transactions
@@ -48,38 +51,14 @@ export default function Navbar({ userName }: NavbarProps) {
           </nav>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           {userName && (
-            <span className="hidden text-sm font-medium text-gray-700 dark:text-gray-300 md:inline-block">
+            <span className="hidden text-xs font-semibold text-slate-700 md:inline-block">
               {userName}
             </span>
           )}
           <LogoutButton />
         </div>
-      </div>
-
-      {/* Mobile nav bar links */}
-      <div className="flex border-t border-gray-200 px-4 py-2 sm:hidden dark:border-gray-800">
-        <Link
-          href="/dashboard"
-          className={`flex-1 text-center py-1.5 text-xs font-semibold rounded ${
-            isDashboardActive
-              ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
-              : "text-gray-600 dark:text-gray-400"
-          }`}
-        >
-          Dashboard
-        </Link>
-        <Link
-          href="/transactions"
-          className={`flex-1 text-center py-1.5 text-xs font-semibold rounded ${
-            isTransactionsActive
-              ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
-              : "text-gray-600 dark:text-gray-400"
-          }`}
-        >
-          Transactions
-        </Link>
       </div>
     </header>
   );

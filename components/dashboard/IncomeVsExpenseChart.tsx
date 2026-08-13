@@ -16,61 +16,61 @@ export default function IncomeVsExpenseChart({
   const expensePct = total > 0 ? (expenses / total) * 100 : 0;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-      <h3 className="text-base font-bold text-gray-900 dark:text-white">
-        Income vs Expense
-      </h3>
-      <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-        Comparative overview of incoming vs outgoing funds
-      </p>
+    <div className="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs">
+      <div>
+        <h3 className="text-sm font-bold text-slate-900">
+          Income vs expenses
+        </h3>
+        <p className="mt-0.5 text-xs text-slate-500">
+          Proportion of incoming and outgoing funds
+        </p>
+      </div>
 
       {total === 0 ? (
-        <div className="mt-6 flex h-32 items-center justify-center rounded-lg bg-gray-50 dark:bg-gray-800/50">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="mt-6 flex h-32 items-center justify-center rounded-xl bg-slate-50">
+          <p className="text-xs text-slate-500">
             No income or expense records for this period.
           </p>
         </div>
       ) : (
-        <div className="mt-6 space-y-5">
-          {/* Visual Stacked Progress Bar */}
+        <div className="mt-6 space-y-6">
+          {/* Proportion labels and progress bar */}
           <div>
-            <div className="flex justify-between text-xs font-semibold mb-2">
-              <span className="text-green-600 dark:text-green-400">
-                Income ({incomePct.toFixed(1)}%)
+            <div className="flex justify-between text-xs font-medium mb-2">
+              <span className="text-slate-700">
+                Income <strong className="font-semibold text-slate-900">{incomePct.toFixed(1)}%</strong>
               </span>
-              <span className="text-red-600 dark:text-red-400">
-                Expense ({expensePct.toFixed(1)}%)
+              <span className="text-slate-700">
+                Expenses <strong className="font-semibold text-slate-900">{expensePct.toFixed(1)}%</strong>
               </span>
             </div>
-            <div className="flex h-4 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+            <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
               <div
                 style={{ width: `${incomePct}%` }}
-                className="bg-green-500 transition-all duration-500"
-                title={`Income: ${formatCurrency(income, "INCOME")}`}
+                className="bg-emerald-600 transition-all duration-500"
               />
               <div
                 style={{ width: `${expensePct}%` }}
-                className="bg-red-500 transition-all duration-500"
-                title={`Expense: ${formatCurrency(expenses, "EXPENSE")}`}
+                className="bg-rose-600 transition-all duration-500"
               />
             </div>
           </div>
 
-          {/* Numerical Breakdown */}
-          <div className="grid grid-cols-2 gap-4 border-t border-gray-100 pt-4 dark:border-gray-800">
-            <div className="rounded-lg bg-green-50/50 p-3 border border-green-100 dark:bg-green-950/30 dark:border-green-900/40">
-              <span className="block text-xs font-medium text-green-700 dark:text-green-400">
-                Total Income
+          {/* Bottom totals */}
+          <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+            <div>
+              <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                INCOME
               </span>
-              <span className="mt-1 block text-lg font-bold text-green-700 dark:text-green-300">
+              <span className="text-base font-bold text-emerald-600">
                 {formatCurrency(income, "INCOME")}
               </span>
             </div>
-            <div className="rounded-lg bg-red-50/50 p-3 border border-red-100 dark:bg-red-950/30 dark:border-red-900/40">
-              <span className="block text-xs font-medium text-red-700 dark:text-red-400">
-                Total Expense
+            <div>
+              <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                EXPENSES
               </span>
-              <span className="mt-1 block text-lg font-bold text-red-700 dark:text-red-300">
+              <span className="text-base font-bold text-rose-600">
                 {formatCurrency(expenses, "EXPENSE")}
               </span>
             </div>

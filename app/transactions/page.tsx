@@ -1,13 +1,20 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect, useCallback } from "react";
-import Navbar from "@/components/Navbar";
+import { useSession } from "next-auth/react";
+import Sidebar from "@/components/Sidebar";
 import TransactionFormModal, { TransactionData } from "@/components/transactions/TransactionFormModal";
 import TransactionFilters, { FilterState } from "@/components/transactions/TransactionFilters";
 import TransactionList from "@/components/transactions/TransactionList";
 import DeleteConfirmModal from "@/components/transactions/DeleteConfirmModal";
 
 export default function TransactionsPage() {
+  const { data: session } = useSession();
+  const userName = session?.user?.name || session?.user?.email?.split("@")[0] || "user";
+  const userEmail = session?.user?.email || "";
+
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -139,91 +146,91 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <div className="flex min-h-screen bg-slate-50">
+      {/* Sidebar Navigation */}
+      <Sidebar userName={userName} userEmail={userEmail} />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-6">
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto px-4 py-8 md:px-8">
+        <div className="mx-auto max-w-5xl space-y-6">
           {/* Header */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                 Transactions
               </h1>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Manage your income and expenses securely.
+              <p className="mt-0.5 text-xs text-slate-500">
+                Track and manage your financial activity.
               </p>
             </div>
             <button
               onClick={handleOpenAddModal}
-              className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="inline-flex items-center justify-center rounded-lg bg-[#181E29] px-4 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
             >
-              + Add Transaction
+              Add transaction
             </button>
           </div>
 
-          {/* Filters */}
+          {/* Filters Toolbar */}
           <TransactionFilters
             filters={filters}
             onFilterChange={handleFilterChange}
             onClearFilters={handleClearFilters}
           />
 
-          {/* Main Content Area: Loading / Error / Empty / List */}
+          {/* Table / Loading / Error / Empty */}
           {isLoading ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-xs dark:border-gray-800 dark:bg-gray-900">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent align-[-0.125em]"></div>
-              <p className="mt-4 text-sm font-medium text-gray-600 dark:text-gray-400">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-12 text-center shadow-xs">
+              <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-slate-900 border-r-transparent align-[-0.125em]"></div>
+              <p className="mt-3 text-xs font-medium text-slate-500">
                 Loading transactions...
               </p>
             </div>
           ) : error ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center shadow-xs dark:border-red-900 dark:bg-red-950/40">
-              <p className="text-sm font-semibold text-red-800 dark:text-red-300">
-                {error}
-              </p>
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center shadow-xs">
+              <p className="text-xs font-medium text-red-700">{error}</p>
               <button
                 onClick={() => {
                   setIsLoading(true);
                   fetchTransactions();
                 }}
-                className="mt-4 rounded-md bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-500"
+                className="mt-3 rounded-lg bg-red-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-red-500"
               >
                 Try Again
               </button>
             </div>
           ) : transactions.length === 0 ? (
             totalCount === 0 ? (
-              /* CASE A: USER HAS ZERO TRANSACTIONS IN TOTAL */
-              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-xs dark:border-gray-800 dark:bg-gray-900">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              /* Case A: True Empty State */
+              <div className="rounded-2xl border border-slate-200/80 bg-white p-12 text-center shadow-xs">
+                <h3 className="text-base font-bold text-slate-900">
                   No transactions yet
                 </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-xs text-slate-500">
                   Add your first transaction to start tracking your finances.
                 </p>
                 <div className="mt-6">
                   <button
                     onClick={handleOpenAddModal}
-                    className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500"
+                    className="inline-flex items-center rounded-lg bg-[#181E29] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800"
                   >
                     + Add Transaction
                   </button>
                 </div>
               </div>
             ) : (
-              /* CASE B: USER HAS TRANSACTIONS BUT CURRENT FILTERS RETURN ZERO RESULTS */
-              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-xs dark:border-gray-800 dark:bg-gray-900">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              /* Case B: Filtered Empty State */
+              <div className="rounded-2xl border border-slate-200/80 bg-white p-12 text-center shadow-xs">
+                <h3 className="text-base font-bold text-slate-900">
                   No transactions found
                 </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-xs text-slate-500">
                   No transactions match your selected filters.
                 </p>
                 <div className="mt-6">
                   <button
                     onClick={handleClearFilters}
-                    className="inline-flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                    className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50"
                   >
                     Clear Filters
                   </button>
