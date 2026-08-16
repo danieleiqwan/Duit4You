@@ -48,6 +48,16 @@ export default function Navbar({ userName }: NavbarProps) {
             >
               Transactions
             </Link>
+            <Link
+              href="/ai-assistant"
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                pathname.startsWith("/ai-assistant")
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              AI Assistant
+            </Link>
           </nav>
         </div>
 
